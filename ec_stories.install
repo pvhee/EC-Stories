@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Implementation of hook install
+ */
+function ec_stories_install() {
+  _ec_stories_save_story_taxonomy();
+  _ec_stories_save_profile_taxonomy();
+}
+
+/**
+ * Creating "Story type" dictionary
+ */
+function ec_stories_update_6001() {
+  _ec_stories_save_story_taxonomy();
+  _ec_stories_save_profile_taxonomy();
+  
+  $return[] = array('success' =>TRUE, 'query' => 'Creating vocabulary "Story type"');
+  $return[] = array('success' =>TRUE, 'query' => 'Creating vocabulary "Story profile role"');
+  return $return;
+}
+
+function _ec_stories_save_story_taxonomy() {
+  // Create placeholder for vocabulary
+  $placeholder = array('multiple' => 0, 'required' => 1, 'hierarchy' => 0, 'relations' => 0, 'weight' => 0, 'tags' => FALSE );
+
+  // Creating Story type vocabulary
+  $vocabulary = $placeholder;
+  $vocabulary['name'] = 'Story type';
+  $vocabulary['help'] = 'Select the type of your story.';
+  $vocabulary['nodes'] = array('story' => 1);
+  taxonomy_save_vocabulary($vocabulary);
+  _ec_stories_save_terms($vocabulary, array('Student life', 'Project', 'Spin off'), array(2, 1, 0));
+}
+
+function _ec_stories_save_profile_taxonomy() {
+  // Create placeholder for vocabulary
+  $placeholder = array('multiple' => 0, 'required' => 1, 'hierarchy' => 0, 'relations' => 0, 'weight' => 0, 'tags' => FALSE );
+
+  // Creating Story type vocabulary
+  $vocabulary = $placeholder;
+  $vocabulary['name'] = 'Story profile role';
+  $vocabulary['help'] = 'Select the profile role.';
+  $vocabulary['nodes'] = array('story' => 1);
+  taxonomy_save_vocabulary($vocabulary);
+  _ec_stories_save_terms($vocabulary, array('Faculty', 'Other', 'Student'), array(2, 1, 0)); 
+}
+
+function _ec_stories_save_terms($vocabulary, $terms, $weights = array()) {
+
+  $term['vid'] = db_last_insert_id('vocabulary', 'vid');
+  foreach ($terms as $key => $name) {
+    $term['name'] = $name;
+    $term['weight'] = isset($weights[$key]) ? $weights[$key] : 0;
+    drupal_write_record('term_data', $term);
+    $term_hierarchy['tid'] = db_last_insert_id('term_data', 'tid');
+    $term_hierarchy['parent'] = 0;
+    drupal_write_record('term_hierarchy', $term_hierarchy);
+  }
+}
+
