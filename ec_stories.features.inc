@@ -35,3 +35,12 @@ function ec_stories_node_info() {
   $args = func_get_args();
   return call_user_func_array('_ec_stories_node_info', $args);
 }
+
+/**
+ * Implementation of hook_strongarm().
+ */
+function ec_stories_strongarm() {
+  module_load_include('inc', 'ec_stories', 'ec_stories.defaults');
+  $args = func_get_args();
+  return call_user_func_array('_ec_stories_strongarm', $args);
+}
