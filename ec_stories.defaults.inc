@@ -1155,6 +1155,32 @@ function _ec_stories_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'content_complete_fields_story';
+  $strongarm->value = array(
+    '0' => 'title',
+    '1' => 'field_story_quote',
+    '2' => 'field_story_pictures',
+    '3' => 'field_story_videos',
+    '4' => 'field_profile_name',
+    '5' => 'field_profile_mail',
+    '6' => 'field_profile_picture',
+    '7' => 'field_profile_twitter',
+    '8' => 'field_profile_facebook',
+    '9' => 'field_profile_country',
+    '10' => 'field_profile_linkedin',
+  );
+
+  $export['content_complete_fields_story'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'content_complete_story';
+  $strongarm->value = '1';
+
+  $export['content_complete_story'] = $strongarm;
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_options_story';
   $strongarm->value = array(
     '0' => 'status',
